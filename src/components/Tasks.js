@@ -13,7 +13,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://todo-app-backend-wqdo.onrender.com/tasks");
+      const response = await axios.get("http://localhost:3500/tasks");
       setTasks(response.data);
       setError("")
     } catch (err) {
@@ -27,7 +27,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     event.preventDefault();
     try {
       await axios.post(
-        "https://todo-app-backend-wqdo.onrender.com/tasks",
+        "http://localhost:3500/tasks",
         { taskname, completed },
       );
       fetchTasks();
@@ -47,7 +47,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastCompleted = checked
     try {
       await axios.patch(
-        "https://todo-app-backend-wqdo.onrender.com/tasks",
+        "http://localhost:3500/tasks",
         { id: tastId, completed: tastCompleted },
       );
       fetchTasks();
@@ -61,7 +61,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastId = tasks[index]._id
     try {
       await axios.delete(
-        "https://todo-app-backend-wqdo.onrender.com/tasks",
+        "http://localhost:3500/tasks",
         { data: { id: tastId } }
       );
       fetchTasks();
@@ -75,7 +75,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     isCompleted.map(async (task) => {
       try {
         await axios.delete(
-          "https://todo-app-backend-wqdo.onrender.com/tasks",
+          "http://localhost:3500/tasks",
           { data: { id: task._id } }
         );
         fetchTasks();
@@ -168,7 +168,9 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
                   />
                   <span></span>
                 </label>
-                <p>{task.taskname}</p>
+                <p
+                  className={(task.completed ? 'checked' : 'none')}
+                >{task.taskname}</p>
                 <button
                   onClick={(event) => handleDelete(event, index)}
                 ><img src={cross} alt="Cross icon for deleting a task" /></button>

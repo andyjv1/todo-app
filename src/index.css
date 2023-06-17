@@ -343,6 +343,12 @@ p {
   font-size: 0.75em;
   width: 100%;
 }
+
+.checked{
+  text-decoration: line-through;
+  color: var(--light-grayish-blue);
+}
+
 .task--dark p {
   color: var(--light-grayish-blue2);
 }
