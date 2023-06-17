@@ -169,7 +169,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
                   <span></span>
                 </label>
                 <p
-                  className={(task.completed ? 'checked' : 'none')}
+                  className={(task.completed && color === "light" ? 'checked' : task.completed && color !== "light" ?  'checked-dark' : 'none')}
                 >{task.taskname}</p>
                 <button
                   onClick={(event) => handleDelete(event, index)}
