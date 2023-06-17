@@ -13,7 +13,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:3500/tasks");
+      const response = await axios.get("https://todo-app-xecu.onrender.com");
       setTasks(response.data);
       setError("")
     } catch (err) {
@@ -27,11 +27,11 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     event.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3500/tasks",
+        "https://todo-app-xecu.onrender.com",
         { taskname, completed },
       );
       fetchTasks();
-    setTaskname("")
+      setTaskname("")
       setCompleted(false)
       setError("")
     } catch (err) {
@@ -47,7 +47,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastCompleted = checked
     try {
       await axios.patch(
-        "http://localhost:3500/tasks",
+        "https://todo-app-xecu.onrender.com",
         { id: tastId, completed: tastCompleted },
       );
       fetchTasks();
@@ -61,7 +61,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastId = tasks[index]._id
     try {
       await axios.delete(
-        "http://localhost:3500/tasks",
+        "https://todo-app-xecu.onrender.com",
         { data: { id: tastId } }
       );
       fetchTasks();
@@ -75,7 +75,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     isCompleted.map(async (task) => {
       try {
         await axios.delete(
-          "http://localhost:3500/tasks",
+          "https://todo-app-xecu.onrender.com",
           { data: { id: task._id } }
         );
         fetchTasks();
@@ -101,12 +101,12 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
         setIsCompleted(current => [...current, task]);
       }
     })
-    
+
     if (actionsChosen === "all") {
       setActionstasks(tasks)
     }
   }, [tasks, actionsChosen]);
-  
+
   useEffect(() => {
     if (actionsChosen === "active") {
       setActionstasks(isActive)
@@ -178,9 +178,9 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
         </ul>
         <div
           className={(color === "light" ? 'actions' : 'actions--dark')}>
-        
+
           <p>{isActive.length} items left</p>
-          <div 
+          <div
             className={(color === "light" ? 'buttons' : 'buttons--dark')}>
             <button
               onClick={() => setActionsChosen("all")}
@@ -198,7 +198,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
           <button
             onClick={() => handleDeleteAll()}
             className={(color === "light" ? 'button-light' : 'button-dark')}>
-          Clear Completed</button>
+            Clear Completed</button>
         </div>
 
       </div>
