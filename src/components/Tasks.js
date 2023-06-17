@@ -169,7 +169,10 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
                   <span></span>
                 </label>
                 <p
-                  className={(task.completed && color === "light" ? 'checked' : task.completed && color !== "light" ?  'checked-dark' : 'none')}
+                  style={{
+                    color: task.completed && color === "light" ? 'var(--light-grayish-blue)' : task.completed && color !== "light" ? 'var(--very-dark-grayish-blue2)' : 'none',
+                    textDecoration: task.completed ? "line-through" : "none"
+                  }}
                 >{task.taskname}</p>
                 <button
                   onClick={(event) => handleDelete(event, index)}
