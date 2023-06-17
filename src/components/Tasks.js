@@ -170,7 +170,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
                 </label>
                 <p
                   style={{
-                    color: task.completed && color === "light" ? 'var(--light-grayish-blue)' : task.completed && color !== "light" ? 'var(--very-dark-grayish-blue2)' : 'none',
+                    color: task.completed && color === "light" ? 'var(--light-grayish-blue)' : task.completed && color !== "light" ? 'var(--very-dark-grayish-blue2)' : '',
                     textDecoration: task.completed ? "line-through" : "none"
                   }}
                 >{task.taskname}</p>
