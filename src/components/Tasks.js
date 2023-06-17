@@ -13,7 +13,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://todo-app-xecu.onrender.com");
+      const response = await axios.get("https://todo-app-backend-wqdo.onrender.com");
       setTasks(response.data);
       setError("")
     } catch (err) {
@@ -27,7 +27,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     event.preventDefault();
     try {
       await axios.post(
-        "https://todo-app-xecu.onrender.com",
+        "https://todo-app-backend-wqdo.onrender.com",
         { taskname, completed },
       );
       fetchTasks();
@@ -47,7 +47,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastCompleted = checked
     try {
       await axios.patch(
-        "https://todo-app-xecu.onrender.com",
+        "https://todo-app-backend-wqdo.onrender.com",
         { id: tastId, completed: tastCompleted },
       );
       fetchTasks();
@@ -61,7 +61,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastId = tasks[index]._id
     try {
       await axios.delete(
-        "https://todo-app-xecu.onrender.com",
+        "https://todo-app-backend-wqdo.onrender.com",
         { data: { id: tastId } }
       );
       fetchTasks();
@@ -75,7 +75,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     isCompleted.map(async (task) => {
       try {
         await axios.delete(
-          "https://todo-app-xecu.onrender.com",
+          "https://todo-app-backend-wqdo.onrender.com",
           { data: { id: task._id } }
         );
         fetchTasks();
