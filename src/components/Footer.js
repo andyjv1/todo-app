@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from './Button'
 
 const Footer = ({ setActionsChosen, actionsChosen, color }) => {
     return (
@@ -6,19 +7,24 @@ const Footer = ({ setActionsChosen, actionsChosen, color }) => {
             className={(color === "light" ? '' : 'footer--dark')}>
             <div
                 className={(color === "light" ? 'buttons' : 'buttons buttons--dark')}>
-                <button
-                    onClick={() => setActionsChosen("all")}
-                    style={{ color: (actionsChosen === "all") ? "var(--bright-blue)" : "" }}
-                >All</button>
-                <button
-                    onClick={() => setActionsChosen("active")}
-                    style={{ color: (actionsChosen === "active") ? "var(--bright-blue)" : "" }}
-                >Active</button>
-                <button
-                    onClick={() => setActionsChosen("completed")}
-                    style={{ color: (actionsChosen === "completed") ? "var(--bright-blue)" : "" }}
-                >Completed</button>
+                <Button
+                    setActionsChosen={setActionsChosen}
+                    actionsChosen={actionsChosen}
+                    setActions={"All"}
+                />
+                <Button
+                    setActionsChosen={setActionsChosen}
+                    actionsChosen={actionsChosen}
+                    setActions={"Active"}
+                />
+                <Button
+                    setActionsChosen={setActionsChosen}
+                    actionsChosen={actionsChosen}
+                    setActions={"Completed"}
+                />
             </div>
+
+
             <p>Drag and drop to reorder list</p>
         </footer>
     )

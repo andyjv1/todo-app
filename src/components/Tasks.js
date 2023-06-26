@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import cross from '../images/icon-cross.svg'
 import axios from 'axios'
+import Button from './Button'
 
 const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
   const [taskname, setTaskname] = useState("")
   const [completed, setCompleted] = useState(false)
   const [tasks, setTasks] = useState([])
-  const [isActive, setIsActive] = useState([])
-  const [isCompleted, setIsCompleted] = useState([])
-  const [actionstasks, setActionstasks] = useState([])
   const [error, setError] = useState("")
+
+  const filters = { 
+    All: tasks,
+    Active: tasks.filter((task) => !task.completed),
+    Completed: tasks.filter((task) => task.completed),
+  };
+
+  const filteredTasks = filters[actionsChosen]; 
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("https://todo-app-backend-wqdo.onrender.com/tasks");
+      const response = await axios.get("http://localhost:3500/tasks");
       setTasks(response.data);
       setError("")
     } catch (err) {
@@ -27,7 +33,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     event.preventDefault();
     try {
       await axios.post(
-        "https://todo-app-backend-wqdo.onrender.com/tasks",
+        "http://localhost:3500/tasks",
         { taskname, completed },
       );
       fetchTasks();
@@ -47,7 +53,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastCompleted = checked
     try {
       await axios.patch(
-        "https://todo-app-backend-wqdo.onrender.com/tasks",
+        "http://localhost:3500/tasks",
         { id: tastId, completed: tastCompleted },
       );
       fetchTasks();
@@ -61,7 +67,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastId = tasks[index]._id
     try {
       await axios.delete(
-        "https://todo-app-backend-wqdo.onrender.com/tasks",
+        "http://localhost:3500/tasks",
         { data: { id: tastId } }
       );
       fetchTasks();
@@ -72,10 +78,10 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
   };
 
   const handleDeleteAll = () => {
-    isCompleted.map(async (task) => {
+    filters.Completed.map(async (task) => {
       try {
         await axios.delete(
-          "https://todo-app-backend-wqdo.onrender.com/tasks",
+          "http://localhost:3500/tasks",
           { data: { id: task._id } }
         );
         fetchTasks();
@@ -90,34 +96,6 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     fetchTasks()
   }, []);
 
-  useEffect(() => {
-    setIsActive([])
-    setIsCompleted([])
-
-    tasks.forEach((task) => {
-      if (task.completed === false) {
-        setIsActive(current => [...current, task]);
-      } else {
-        setIsCompleted(current => [...current, task]);
-      }
-    })
-    
-    if (actionsChosen === "all") {
-      setActionstasks(tasks)
-    }
-  }, [tasks, actionsChosen]);
-  
-  useEffect(() => {
-    if (actionsChosen === "active") {
-      setActionstasks(isActive)
-    }
-  }, [isActive, actionsChosen]);
-
-  useEffect(() => {
-    if (actionsChosen === "completed") {
-      setActionstasks(isCompleted)
-    }
-  }, [isCompleted, actionsChosen]);
 
   return (
     <main>
@@ -154,7 +132,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
       </form>
       <div className="tasks">
         <ul>
-          {actionstasks.map((task, index) => (
+          {filteredTasks.map((task, index) => (
             <li key={index}>
               <div
                 className={(color === "light" ? 'task' : 'task--dark')}
@@ -170,7 +148,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
                 </label>
                 <p
                   style={{
-                    color: task.completed && color === "light" ? 'var(--light-grayish-blue)' : task.completed && color !== "light" ? 'var(--very-dark-grayish-blue2)' : '',
+                    color: task.completed && color === "light" ? 'var(--light-grayish-blue)' : task.completed && color !== "light" ? 'var(--very-dark-grayish-blue2)' : 'none',
                     textDecoration: task.completed ? "line-through" : "none"
                   }}
                 >{task.taskname}</p>
@@ -184,21 +162,24 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
         <div
           className={(color === "light" ? 'actions' : 'actions--dark')}>
         
-          <p>{isActive.length} items left</p>
+          <p>{filters.Active.length} items left</p>
           <div 
             className={(color === "light" ? 'buttons' : 'buttons--dark')}>
-            <button
-              onClick={() => setActionsChosen("all")}
-              style={{ color: (actionsChosen === "all") ? "var(--bright-blue)" : "" }}
-            >All</button>
-            <button
-              onClick={() => setActionsChosen("active")}
-              style={{ color: (actionsChosen === "active") ? "var(--bright-blue)" : "" }}
-            >Active</button>
-            <button
-              onClick={() => setActionsChosen("completed")}
-              style={{ color: (actionsChosen === "completed") ? "var(--bright-blue)" : "" }}
-            >Completed</button>
+            <Button
+              setActionsChosen={setActionsChosen}
+              actionsChosen={actionsChosen}
+              setActions={"All"}
+              />
+            <Button
+              setActionsChosen={setActionsChosen}
+              actionsChosen={actionsChosen}
+              setActions={"Active"}
+        />
+            <Button
+              setActionsChosen={setActionsChosen}
+              actionsChosen={actionsChosen}
+              setActions={"Completed"}
+              />
           </div>
           <button
             onClick={() => handleDeleteAll()}
