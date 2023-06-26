@@ -7,7 +7,7 @@ function App() {
   const [color, setColor] = useState("light")
   const [device, setDevice] = useState("mobile")
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const [actionsChosen, setActionsChosen] = useState("all")
+  const [actionsChosen, setActionsChosen] = useState("All")
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -27,36 +27,35 @@ function App() {
     }
   }, [windowSize]);
 
-  
+
   useEffect(() => {
-    document.body.style.backgroundImage = `url(/images/bg-${device}-${color}.jpg)` 
+    document.body.style.backgroundImage = `url(/images/bg-${device}-${color}.jpg)`
   }, [device, color])
 
   useEffect(() => {
     if (color === "light") {
-      document.body.style.backgroundColor = `var(--very-light-gray)` 
+      document.body.style.backgroundColor = `var(--very-light-gray)`
     } else {
-      document.body.style.backgroundColor = `var(--very-vark-blue)` 
+      document.body.style.backgroundColor = `var(--very-vark-blue)`
     }
   }, [device, color])
 
   return (
     <>
       <Header
-        color={color} setColor={setColor} 
-          
-        />
-      <Tasks 
-      color={color} 
+        color={color} setColor={setColor}
+      />
+      <Tasks
+        color={color}
         actionsChosen={actionsChosen}
         setActionsChosen={setActionsChosen}
       />
-      <Footer 
-      color={color} 
+      <Footer
+        color={color}
         actionsChosen={actionsChosen}
         setActionsChosen={setActionsChosen}
       />
-     </>
+    </>
   );
 }
 
