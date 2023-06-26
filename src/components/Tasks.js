@@ -9,17 +9,17 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
   const [tasks, setTasks] = useState([])
   const [error, setError] = useState("")
 
-  const filters = { 
+  const filters = {
     All: tasks,
     Active: tasks.filter((task) => !task.completed),
     Completed: tasks.filter((task) => task.completed),
   };
 
-  const filteredTasks = filters[actionsChosen]; 
+  const filteredTasks = filters[actionsChosen];
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:3500/tasks");
+      const response = await axios.get("https://todo-app-backend-wqdo.onrender.com/tasks");
       setTasks(response.data);
       setError("")
     } catch (err) {
@@ -33,11 +33,11 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     event.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3500/tasks",
+        "https://todo-app-backend-wqdo.onrender.com/tasks",
         { taskname, completed },
       );
       fetchTasks();
-    setTaskname("")
+      setTaskname("")
       setCompleted(false)
       setError("")
     } catch (err) {
@@ -53,7 +53,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastCompleted = checked
     try {
       await axios.patch(
-        "http://localhost:3500/tasks",
+        "https://todo-app-backend-wqdo.onrender.com/tasks",
         { id: tastId, completed: tastCompleted },
       );
       fetchTasks();
@@ -67,7 +67,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     const tastId = tasks[index]._id
     try {
       await axios.delete(
-        "http://localhost:3500/tasks",
+        "https://todo-app-backend-wqdo.onrender.com/tasks",
         { data: { id: tastId } }
       );
       fetchTasks();
@@ -81,7 +81,7 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
     filters.Completed.map(async (task) => {
       try {
         await axios.delete(
-          "http://localhost:3500/tasks",
+          "https://todo-app-backend-wqdo.onrender.com/tasks",
           { data: { id: task._id } }
         );
         fetchTasks();
@@ -161,30 +161,30 @@ const Tasks = ({ actionsChosen, setActionsChosen, color }) => {
         </ul>
         <div
           className={(color === "light" ? 'actions' : 'actions--dark')}>
-        
+
           <p>{filters.Active.length} items left</p>
-          <div 
+          <div
             className={(color === "light" ? 'buttons' : 'buttons--dark')}>
             <Button
               setActionsChosen={setActionsChosen}
               actionsChosen={actionsChosen}
               setActions={"All"}
-              />
+            />
             <Button
               setActionsChosen={setActionsChosen}
               actionsChosen={actionsChosen}
               setActions={"Active"}
-        />
+            />
             <Button
               setActionsChosen={setActionsChosen}
               actionsChosen={actionsChosen}
               setActions={"Completed"}
-              />
+            />
           </div>
           <button
             onClick={() => handleDeleteAll()}
             className={(color === "light" ? 'button-light' : 'button-dark')}>
-          Clear Completed</button>
+            Clear Completed</button>
         </div>
 
       </div>
